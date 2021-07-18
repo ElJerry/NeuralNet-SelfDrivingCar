@@ -13,6 +13,10 @@ public class CarController : MonoBehaviour
     public float distanceTraveled;
     public bool crashed = false;
 
+    public Laser sFront;
+    public Laser sRight;
+    public Laser sLeft;
+
     private float gasInput;
     private float steerInput;
     private bool goingForward;
@@ -28,6 +32,9 @@ public class CarController : MonoBehaviour
         Physics.IgnoreCollision(sphereRb.GetComponent<Collider>(), carCollider);
         startingPoint = sphereRb.position;
         startingAngle = transform.rotation;
+        Physics.IgnoreLayerCollision(9, 9);
+        Physics.IgnoreLayerCollision(9, 10);
+        Physics.IgnoreLayerCollision(10, 10);        
     }
 
 
@@ -97,6 +104,12 @@ public class CarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {        
+        if(other.gameObject.layer == 9 || other.gameObject.layer == 10)
+        {
+            return;
+        }
+
+        //print("crashed!");
         crashed = true;
     }
 

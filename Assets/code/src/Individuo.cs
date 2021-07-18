@@ -12,6 +12,8 @@ namespace Assets.code.src
         public float fitness;
         static Random random = new Random();
 
+        private int probMut = 15;
+
         // 3 neuronas conectadas a 2 salidas
 
         public Individuo(int tamanoGenes)
@@ -21,16 +23,21 @@ namespace Assets.code.src
 
             for(int i = 0; i < genes.Length; i++)
             {
-                genes[i] = (float)random.NextDouble();
-
-                // randomizar a negativo
-                if (random.Next(100) % 2 == 0)
-                {
-                    genes[i] = -genes[i];
-                }
+                genes[i] = GenerateRandomGene();
             }
         }
         
+        private float GenerateRandomGene()
+        {
+            float gen = (float)random.NextDouble();
+
+            // randomizar a negativo
+            if (random.Next(100) % 2 == 0)
+            {
+                gen = -gen;
+            }
+            return gen;
+        }
 
         public String getGenes()
         {
@@ -52,6 +59,13 @@ namespace Assets.code.src
 
             for (int i = 0; i<genes.Length; i++)
             {
+                if(random.Next(100) <= probMut)
+                {
+                    // mutate
+                    nuevo.genes[i] = GenerateRandomGene();
+                    continue;
+                }
+                
                 nuevo.genes[i] = (genes[i] + otro.genes[i])/ 2;
             }
 
@@ -63,6 +77,9 @@ namespace Assets.code.src
             Individuo otro = (Individuo)obj;
             if (fitness < otro.fitness)
                 return 1;
+
+            if (fitness == otro.fitness)
+                return 0;
 
             return -1;
         }

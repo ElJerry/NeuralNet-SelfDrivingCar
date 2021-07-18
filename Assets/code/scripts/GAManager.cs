@@ -8,11 +8,13 @@ using System;
 public class GAManager : MonoBehaviour
 {
     GeneticAlgorithm ga;
-    NeuralNet nNet;
+    NeuralNet []nNet;
+    CarController[] carController;
     
-    public Laser sFront, sRight, sLeft;
-    public CarController carController;
+    //public Laser sFront, sRight, sLeft;
     public int individuosPorGeneracion = 50;
+
+    public GameObject carObject;
 
     private int currentIndividual = 0;
     private int currentGeneration = 1;
@@ -28,9 +30,26 @@ public class GAManager : MonoBehaviour
     {
         ga = new GeneticAlgorithm(individuosPorGeneracion, 5);
         print(ga.getIndividualsChart());
+        InitializeCars();
+    }
 
-        nNet = new NeuralNet();
-        nNet.configurar(ga.GetIndividuo(0).genes);
+    private void InitializeCars()
+    {
+        carController = new CarController[individuosPorGeneracion];
+        nNet = new NeuralNet[individuosPorGeneracion];
+        for (int i = 0; i < individuosPorGeneracion; i++)
+        {
+            nNet[i] = new NeuralNet();
+            nNet[i].configurar(ga.GetIndividuo(i).genes);
+            GameObject car = spawnCar();
+            carController[i] = car.GetComponent<CarController>();
+        }
+    }
+
+    private GameObject spawnCar()
+    {
+        GameObject car = GameObject.Instantiate(carObject, transform.position, Quaternion.identity);
+        return car;
     }
 
     // Update is called once per frame
@@ -39,11 +58,16 @@ public class GAManager : MonoBehaviour
         HandleInputs();
         HandleNeuralNetLogic();
 
-        if (carController.crashed)
+        //foreach (var controller in carController)
+        for (int i=0; i<carController.Length; i++)
         {
-            ga.AsignarFitness(currentIndividual, carController.distanceTraveled);
-            carController.ResetCar();
-            simulateNext();
+            var controller = carController[i];
+            if (controller.crashed)
+            {
+                ga.AsignarFitness(i, controller.distanceTraveled);
+                controller.gameObject.SetActive(false);
+                //simulateNext();
+            }
         }
     }
 
@@ -51,42 +75,49 @@ public class GAManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            // force crash
-            carController.crashed = true;
+            simulateNext();
+            InitializeCars();
         }
     }
 
     private void simulateNext()
-    {
-        currentIndividual++;
-
-        if (currentIndividual >= individuosPorGeneracion )
+    {   
+        //print("Nueva generacion " + currentGeneration);
+        ga.Cruzar();
+        print(ga.getIndividualsChart());
+        
+        // delete all cars
+        foreach (var car in carController)
         {
-            // brincar de generacion
-            currentGeneration++;
-            print("Nueva generacion " + currentGeneration);
-            ga.Cruzar();
-            print(ga.getIndividualsChart());
-            currentIndividual = 0;
+            Destroy(car.gameObject);
         }
 
-        nNet.configurar(ga.GetIndividuo(currentIndividual).genes);
-        carController.ResetCar();
+        //nNet.configurar(ga.GetIndividuo(currentIndividual).genes);
+        //carController.ResetCar();
     }
 
     private void HandleNeuralNetLogic()
     {
-        float front, left, right;
-        sFront.GetHitInfo(out front);
-        sRight.GetHitInfo(out right);
-        sLeft.GetHitInfo(out left);
-        nNet.Evaluar(front, right, left);
 
-        float gas, steer;
-        nNet.getResults(out gas, out steer);
-        //print("Sending inputs!!" + gas + " "+ steer);
-        carController.SendInputs(gas, steer);
-        currentGas = gas;
-        currentSteer = steer;
+        for (int i = 0; i<individuosPorGeneracion; i++)
+        {
+            if (!carController[i].gameObject.active)
+            {
+                continue;
+            }
+
+            float front, left, right;
+            carController[i].sFront.GetHitInfo(out front);
+            carController[i].sRight.GetHitInfo(out right);
+            carController[i].sLeft.GetHitInfo(out left);
+            nNet[i].Evaluar(front, right, left);
+
+            float gas, steer;
+            nNet[i].getResults(out gas, out steer);
+            //print("Sending inputs!!" + gas + " " + steer);
+            carController[i].SendInputs(gas, steer);
+            currentGas = gas;
+            currentSteer = steer;
+        }
     }
 }

@@ -8,9 +8,9 @@ public class Laser : MonoBehaviour
     public float rayLenght;
     public LayerMask maskToCheck;
     public string laserName;
+    public float distance;
 
     private RaycastHit hit;
-    private float distance;
     private bool isHitting;
 
     public bool GetHitInfo(out float distance)
@@ -33,8 +33,10 @@ public class Laser : MonoBehaviour
 
     private void HandleRayHitInfo()
     {
-        isHitting = Physics.Raycast(transform.position, transform.forward, out hit, rayLenght);
-        distance = hit.distance;
+        int wallMask = 1 << 11;
+        isHitting = Physics.Raycast(transform.position, transform.forward, out hit, rayLenght, wallMask);
+
+        distance = isHitting ? hit.distance : rayLenght; 
     }
 
     private void logInfo()
