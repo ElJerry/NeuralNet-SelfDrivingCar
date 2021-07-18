@@ -11,15 +11,16 @@ namespace Assets.code.src.NeuralNet
         Neurona nFrente, nDerecha, nIzquierda, nGas, nSteer;
         public NeuralNet()
         {
+        }
+
+        public void configurar(float []genes)
+        {
             nFrente = new Neurona();
             nDerecha = new Neurona();
             nIzquierda = new Neurona();
             nGas = new Neurona();
             nSteer = new Neurona();
-        }
 
-        public void configurar(float []genes)
-        {
             nFrente.peso = genes[0];
             nDerecha.peso = genes[1];
             nIzquierda.peso = genes[2];

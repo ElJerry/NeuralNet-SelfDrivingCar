@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.code.src.NeuralNet
 {
@@ -30,7 +31,8 @@ namespace Assets.code.src.NeuralNet
                 sum += n.output;
             }
 
-            output = (((input * peso) + sum) * peso)/10;
+            output = ((input * peso) + sum) * peso;
+            output = (float)Math.Sin(output);
 
             return output;
         }

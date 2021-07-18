@@ -10,11 +10,15 @@ public class CarController : MonoBehaviour
 
     public float forwardSpeed;
     public float steerSpeed;
+    public float distanceTraveled;
+    public bool crashed = false;
 
     private float gasInput;
     private float steerInput;
     private bool goingForward;
     private Vector3 lastPosition;
+    private Vector3 startingPoint;
+    private Quaternion startingAngle;
 
     void Start()
     {
@@ -22,12 +26,28 @@ public class CarController : MonoBehaviour
         //Physics.IgnoreLayerCollision(9, 10, true);
         //Physics.IgnoreLayerCollision(10, 10, true);
         Physics.IgnoreCollision(sphereRb.GetComponent<Collider>(), carCollider);
+        startingPoint = sphereRb.position;
+        startingAngle = transform.rotation;
     }
 
 
     void Update()
     {
-        logInfo();
+        //logInfo();
+    }
+
+    public void ResetCar()
+    {
+        crashed = false;
+        distanceTraveled = 0;
+
+        sphereRb.position = startingPoint;
+        sphereRb.velocity = new Vector3(0f, 0f, 0f);
+        sphereRb.angularVelocity = new Vector3(0f, 0f, 0f);
+        sphereRb.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        sphereRb.angularDrag = 0.05f;
+        transform.rotation = startingAngle;
+        distanceTraveled = 0;
     }
 
     private void logInfo()
@@ -71,6 +91,13 @@ public class CarController : MonoBehaviour
         sphereRb.AddForce(transform.forward * forwardSpeed * gasInput, ForceMode.Acceleration);        
         updateVehiclePosition();
 
-        lastPosition = transform.position;
+        distanceTraveled += Vector3.Distance(transform.position, lastPosition);
+        lastPosition = transform.position;        
     }
+
+    private void OnTriggerEnter(Collider other)
+    {        
+        crashed = true;
+    }
+
 }

@@ -22,6 +22,12 @@ namespace Assets.code.src
             for(int i = 0; i < genes.Length; i++)
             {
                 genes[i] = (float)random.NextDouble();
+
+                // randomizar a negativo
+                if (random.Next(100) % 2 == 0)
+                {
+                    genes[i] = -genes[i];
+                }
             }
         }
         
