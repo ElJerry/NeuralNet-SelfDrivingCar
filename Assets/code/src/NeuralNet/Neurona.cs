@@ -31,8 +31,8 @@ namespace Assets.code.src.NeuralNet
                 sum += n.output;
             }
 
-            output = ((input * peso) + sum) * peso;
-            output = (float)Math.Sin(output);
+            output = (input * peso) + (sum*peso);
+            output = (float)Math.Tanh(output);
 
             return output;
         }

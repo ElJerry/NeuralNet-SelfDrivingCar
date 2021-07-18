@@ -28,7 +28,7 @@ public class GAManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ga = new GeneticAlgorithm(individuosPorGeneracion, 5);
+        ga = new GeneticAlgorithm(individuosPorGeneracion, 6);
         print(ga.getIndividualsChart());
         InitializeCars();
     }
@@ -111,13 +111,14 @@ public class GAManager : MonoBehaviour
             carController[i].sRight.GetHitInfo(out right);
             carController[i].sLeft.GetHitInfo(out left);
             nNet[i].Evaluar(front, right, left);
-
-            float gas, steer;
-            nNet[i].getResults(out gas, out steer);
-            //print("Sending inputs!!" + gas + " " + steer);
-            carController[i].SendInputs(gas, steer);
+            //print("Evaluando: " + front + " " + right + " " + left);
+            float gas, steerIzq, steerDer;
+            nNet[i].getResults(out gas, out steerIzq, out steerDer);
+            currentSteer = steerDer - steerIzq;
+            carController[i].SendInputs(gas, currentSteer);
             currentGas = gas;
-            currentSteer = steer;
+            //print("Neuron outputs[" + i + "] " + gas + " izq: " + steerIzq + " der: " + steerDer);
+            //print("Sending inputs[" +i+ "] " + currentGas + " " + currentSteer);
         }
     }
 }

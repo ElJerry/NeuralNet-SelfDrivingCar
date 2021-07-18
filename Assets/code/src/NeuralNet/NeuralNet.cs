@@ -8,7 +8,7 @@ namespace Assets.code.src.NeuralNet
 {
     class NeuralNet
     {
-        Neurona nFrente, nDerecha, nIzquierda, nGas, nSteer;
+        Neurona nFrente, nDerecha, nIzquierda, nGas, nSteerIzq, nSteerDer;
         public NeuralNet()
         {
         }
@@ -19,22 +19,27 @@ namespace Assets.code.src.NeuralNet
             nDerecha = new Neurona();
             nIzquierda = new Neurona();
             nGas = new Neurona();
-            nSteer = new Neurona();
+            nSteerIzq = new Neurona();
+            nSteerDer = new Neurona();
 
             nFrente.peso = genes[0];
             nDerecha.peso = genes[1];
             nIzquierda.peso = genes[2];
             nGas.peso = genes[3];
-            nSteer.peso = genes[4];
+            nSteerIzq.peso = genes[4];
+            nSteerDer.peso = genes[5];
 
             nFrente.LinkNeurona(nGas);
-            nFrente.LinkNeurona(nSteer);
+            nFrente.LinkNeurona(nSteerIzq);
+            nFrente.LinkNeurona(nSteerDer);
 
             nDerecha.LinkNeurona(nGas);
-            nDerecha.LinkNeurona(nSteer);
+            //nDerecha.LinkNeurona(nSteerIzq);
+            nDerecha.LinkNeurona(nSteerDer);
 
             nIzquierda.LinkNeurona(nGas);
-            nIzquierda.LinkNeurona(nSteer);
+            nIzquierda.LinkNeurona(nSteerIzq);
+            //nIzquierda.LinkNeurona(nSteerDer);
         }
 
         internal void Evaluar(float front, float right, float left)
@@ -47,14 +52,16 @@ namespace Assets.code.src.NeuralNet
             nDerecha.evaluar();
             nIzquierda.evaluar();
             nGas.evaluar();
-            nSteer.evaluar();
+            nSteerIzq.evaluar();
+            nSteerDer.evaluar();
 
         }
 
-        public void getResults(out float gas, out float steer)
+        public void getResults(out float gas, out float steerIzq, out float steerDer)
         {
             gas = nGas.output;
-            steer = nSteer.output;
+            steerIzq = nSteerIzq.output;
+            steerDer = nSteerDer.output;
         }
     }
 }
