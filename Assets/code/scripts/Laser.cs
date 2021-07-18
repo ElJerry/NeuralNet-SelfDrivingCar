@@ -15,7 +15,7 @@ public class Laser : MonoBehaviour
 
     public bool GetHitInfo(out float distance)
     {
-        distance = isHitting ? this.distance : 9999f;
+        distance = isHitting ? this.distance : rayLenght;
         return isHitting;
     }
 
@@ -28,7 +28,7 @@ public class Laser : MonoBehaviour
     {
         HandleRayHitInfo();
 
-        logInfo();
+        //logInfo();
     }
 
     private void HandleRayHitInfo()

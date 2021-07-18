@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assets.code.src
 {
-    class Individuo : IComparable
+    public class Individuo : IComparable
     {
-        private float []genes;
+        public float []genes;
         public float fitness;
         static Random random = new Random();
 

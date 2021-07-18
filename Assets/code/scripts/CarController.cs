@@ -27,7 +27,7 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
-        //logInfo();
+        logInfo();
     }
 
     private void logInfo()

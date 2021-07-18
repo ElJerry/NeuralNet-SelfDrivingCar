@@ -70,5 +70,10 @@ namespace Assets.code.src
         {
             individuos[id].fitness = fitness;
         }
+
+        public Individuo GetIndividuo(int id)
+        {
+            return individuos[id];
+        }
     }
 }
