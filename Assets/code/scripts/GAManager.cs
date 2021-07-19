@@ -89,6 +89,7 @@ public class GAManager : MonoBehaviour
         // delete all cars
         foreach (var car in carController)
         {
+            Destroy(car.sphereRb.gameObject);
             Destroy(car.gameObject);
         }
 
