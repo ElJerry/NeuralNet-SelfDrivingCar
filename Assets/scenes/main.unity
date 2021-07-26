@@ -1144,6 +1144,10 @@ MonoBehaviour:
     type: 3}
   currentGas: 0
   currentSteer: 0
+  inputs: 3
+  outputs: 3
+  layers: 2
+  layerNodes: 3
 --- !u!4 &1841033071
 Transform:
   m_ObjectHideFlags: 0

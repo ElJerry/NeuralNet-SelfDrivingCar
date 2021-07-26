@@ -8,11 +8,11 @@ public class Neuron
     public float bias;
     public float weight;
     public int inputs, outputs;
+    public float input;
+    public float output;
 
     private List<Neuron> inputList;
     private List<Neuron> outputList;
-    private float input;
-    private float output;
     private string neuronId { get; }
 
     private Printer printer;
@@ -27,11 +27,13 @@ public class Neuron
         outputList = new List<Neuron>();
     }
 
+    public Neuron(string neuronId) : this(0, 0, neuronId) { }
+
     public void LinkNeurons(Neuron other)
     {
         this.outputList.Add(other);
         other.inputList.Add(this);
-        Printer.print("Linked " + neuronId +" with " + other.neuronId);
+        //Printer.print("Linked " + neuronId +" with " + other.neuronId);
     }
 
     public float Evaluate()
@@ -39,19 +41,24 @@ public class Neuron
         // gather inputs from inputList
         foreach (Neuron n in inputList)
         {
-            input += n.output;
+            var test = this.neuronId;
+            input += (n.output * weight);
         }
 
-        output = (input * weight) + bias;
+        output = ((input * weight)) * weight;
         output = (float)(Math.Tanh((double)output));
-        Printer.print(neuronId + " output: " + output);
+        //Printer.print(neuronId + " output: " + output);
+        if (neuronId.Contains("output1"))
+        {
+            var a = 1;
+        }
         return output;
     }
 
     public void PrintNeuronInfo()
     {
         string message = neuronId +"=== bias:" + bias + " weight:" + weight;
-        Printer.print(message);
+        //Printer.print(message);
     }
 
     public void SetValues(float bias, float weight)

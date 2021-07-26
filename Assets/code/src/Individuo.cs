@@ -32,10 +32,10 @@ namespace Assets.code.src
             float gen = (float)random.NextDouble();
 
             // randomizar a negativo
-            //if (random.Next(100) % 2 == 0)
-            //{
-            //    gen = -gen;
-            //}
+            if (random.Next(100) % 2 == 0)
+            {
+                gen = -gen;
+            }
             return gen;
         }
 

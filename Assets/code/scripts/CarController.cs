@@ -98,7 +98,7 @@ public class CarController : MonoBehaviour
         sphereRb.AddForce(transform.forward * forwardSpeed * gasInput, ForceMode.Acceleration);        
         updateVehiclePosition();
 
-        distanceTraveled += Vector3.Distance(transform.position, lastPosition);
+        distanceTraveled += Vector3.Distance(transform.position, startingPoint);
         lastPosition = transform.position;        
     }
 

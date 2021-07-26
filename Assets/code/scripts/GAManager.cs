@@ -8,7 +8,7 @@ using System;
 public class GAManager : MonoBehaviour
 {
     GeneticAlgorithm ga;
-    NeuralNet []nNet;
+    NeuralNetwork []nNet;
     CarController[] carController;
     
     //public Laser sFront, sRight, sLeft;
@@ -22,13 +22,15 @@ public class GAManager : MonoBehaviour
     // only for live debugging
     public float currentGas;
     public float currentSteer;
+    public int inputs, outputs, layers, layerNodes;
 
     
 
     // Start is called before the first frame update
     void Start()
     {
-        ga = new GeneticAlgorithm(individuosPorGeneracion, 6);
+        int nodos = inputs + outputs + (layers * layerNodes);
+        ga = new GeneticAlgorithm(individuosPorGeneracion, nodos * 2);
         print(ga.getIndividualsChart());
         InitializeCars();
     }
@@ -36,11 +38,11 @@ public class GAManager : MonoBehaviour
     private void InitializeCars()
     {
         carController = new CarController[individuosPorGeneracion];
-        nNet = new NeuralNet[individuosPorGeneracion];
+        nNet = new NeuralNetwork[individuosPorGeneracion];
         for (int i = 0; i < individuosPorGeneracion; i++)
         {
-            nNet[i] = new NeuralNet();
-            nNet[i].configurar(ga.GetIndividuo(i).genes);
+            nNet[i] = new NeuralNetwork(inputs, outputs, layers, layerNodes);
+            nNet[i].ConfigureNetwork(ga.GetIndividuo(i).genes);
             GameObject car = spawnCar();
             carController[i] = car.GetComponent<CarController>();
         }
@@ -111,10 +113,15 @@ public class GAManager : MonoBehaviour
             carController[i].sFront.GetHitInfo(out front);
             carController[i].sRight.GetHitInfo(out right);
             carController[i].sLeft.GetHitInfo(out left);
-            nNet[i].Evaluar(front, right, left);
+
+            List<float> inputs = new List<float> { front / 30, right / 30, left / 30 };
+           
+            nNet[i].EvaluateState(inputs);
             //print("Evaluando: " + front + " " + right + " " + left);
-            float gas, steerIzq, steerDer;
-            nNet[i].getResults(out gas, out steerIzq, out steerDer);
+            var outputs = nNet[i].GetOutputs();
+            float gas = outputs[0];
+            float steerIzq = outputs[1];
+            float steerDer = outputs[2];
             currentSteer = steerDer - steerIzq;
             carController[i].SendInputs(gas, currentSteer);
             currentGas = gas;
