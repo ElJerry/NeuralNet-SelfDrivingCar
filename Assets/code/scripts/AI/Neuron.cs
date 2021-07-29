@@ -11,9 +11,9 @@ public class Neuron
     public float input;
     public float output;
 
-    private List<Neuron> inputList;
-    private List<Neuron> outputList;
-    private string neuronId { get; }
+    public List<Neuron> inputList;
+    public List<Neuron> outputList;
+    public string neuronId { get; }
 
     private Printer printer;
 

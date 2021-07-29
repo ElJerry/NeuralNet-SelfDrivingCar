@@ -15,6 +15,7 @@ public class GAManager : MonoBehaviour
     public int individuosPorGeneracion = 50;
 
     public GameObject carObject;
+    public NeuralNetDrawer neuralNetDrawer;
 
     private int currentIndividual = 0;
     private int currentGeneration = 1;
@@ -43,6 +44,7 @@ public class GAManager : MonoBehaviour
         {
             nNet[i] = new NeuralNetwork(inputs, outputs, layers, layerNodes);
             nNet[i].ConfigureNetwork(ga.GetIndividuo(i).genes);
+            neuralNetDrawer.SetNeuralNetwork(nNet[i]);
             GameObject car = spawnCar();
             carController[i] = car.GetComponent<CarController>();
         }

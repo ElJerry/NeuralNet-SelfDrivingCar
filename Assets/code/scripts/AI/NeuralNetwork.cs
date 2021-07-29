@@ -10,11 +10,11 @@ public class NeuralNetwork
     public int hiddenLayers;
     public int nodesInHiddenLayers;
 
-    private List<Neuron> inputList;
-    private List<Neuron> outputList;
-    private List<Neuron> allNeurons;
+    public List<Neuron> inputList;
+    public List<Neuron> outputList;
+    public List<Neuron> allNeurons;
 
-    private Neuron[,] layerNeurons;
+    public Neuron[,] layerNeurons;
 
     public NeuralNetwork(int inputs, int outputs, int hiddenLayers, int nodesInHiddenLayers)
     {
