@@ -42,16 +42,12 @@ public class Neuron
         foreach (Neuron n in inputList)
         {
             var test = this.neuronId;
-            input += (n.output * weight);
+            input += (n.output);
         }
 
-        output = ((input * weight)) * weight;
+        output = ((input) * weight) + bias;
         output = (float)(Math.Tanh((double)output));
-        //Printer.print(neuronId + " output: " + output);
-        if (neuronId.Contains("output1"))
-        {
-            var a = 1;
-        }
+        //Printer.print(neuronId + " output: " + output);        
         return output;
     }
 

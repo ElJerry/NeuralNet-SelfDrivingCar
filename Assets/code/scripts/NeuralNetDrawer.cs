@@ -59,14 +59,14 @@ public class NeuralNetDrawer : MonoBehaviour
                 else
                     color = Color.white;
 
-                color = new Color(0f, 0f, n.output);
+                color = new Color(n.output, n.output, n.output);
                     
                 Debug.DrawRay(nodeMapping[n.neuronId].transform.position, destiny.transform.localPosition - origin.transform.localPosition, color);
 
             }
             // write output value
             TextMesh text = origin.transform.GetComponentInChildren<TextMesh>();
-            text.text = n.output.ToString();
+            text.text = n.input.ToString();
 
             // print value
 
