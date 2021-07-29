@@ -58,9 +58,15 @@ public class NeuralNetDrawer : MonoBehaviour
                     color = Color.red;
                 else
                     color = Color.white;
+
+                color = new Color(0f, 0f, n.output);
                     
                 Debug.DrawRay(nodeMapping[n.neuronId].transform.position, destiny.transform.localPosition - origin.transform.localPosition, color);
+
             }
+            // write output value
+            TextMesh text = origin.transform.GetComponentInChildren<TextMesh>();
+            text.text = n.output.ToString();
 
             // print value
 
@@ -105,6 +111,16 @@ public class NeuralNetDrawer : MonoBehaviour
         go.transform.parent = gameObject.transform;
         go.transform.localPosition = position;
         go.name = name;
+
+        var text = new GameObject("Text");
+        text.transform.parent = go.transform;
+        text.transform.localPosition = new Vector3(0, 0, -.49f);       
+
+        var textComponent = text.AddComponent<TextMesh>();
+        textComponent.text = "Testing!";
+        textComponent.anchor = TextAnchor.MiddleCenter;
+        textComponent.characterSize = .2f;
+        textComponent.color = Color.black;
         return go;
     }
 

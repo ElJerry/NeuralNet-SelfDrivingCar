@@ -53,7 +53,7 @@ public class NeuralNetwork
         }
 
         // Create output neurons
-        for (int i = 0; i < inputs; i++)
+        for (int i = 0; i < outputs; i++)
         {
             //Neuron neuron = GameObject.Instantiate();
             var neuron = new Neuron("output" + i);

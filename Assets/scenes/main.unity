@@ -758,7 +758,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 542635262}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1232,7 +1232,7 @@ MonoBehaviour:
   currentGas: 0
   currentSteer: 0
   inputs: 3
-  outputs: 3
+  outputs: 2
   layers: 1
   layerNodes: 2
 --- !u!4 &1841033071

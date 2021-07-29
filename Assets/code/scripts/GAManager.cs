@@ -82,6 +82,11 @@ public class GAManager : MonoBehaviour
             simulateNext();
             InitializeCars();
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Start();
+        }
     }
 
     private void simulateNext()
@@ -122,9 +127,9 @@ public class GAManager : MonoBehaviour
             //print("Evaluando: " + front + " " + right + " " + left);
             var outputs = nNet[i].GetOutputs();
             float gas = outputs[0];
-            float steerIzq = outputs[1];
-            float steerDer = outputs[2];
-            currentSteer = steerDer - steerIzq;
+            //float steerIzq = outputs[1];
+            //float steerDer = outputs[2];
+            currentSteer = outputs[1]; //steerDer - steerIzq;
             carController[i].SendInputs(gas, currentSteer);
             currentGas = gas;
             //print("Neuron outputs[" + i + "] " + gas + " izq: " + steerIzq + " der: " + steerDer);
