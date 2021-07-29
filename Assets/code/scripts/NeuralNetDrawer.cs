@@ -102,6 +102,9 @@ public class NeuralNetDrawer : MonoBehaviour
         }
 
         neuronsCreated = true;
+
+        //downscale
+        gameObject.transform.localScale = new Vector3(.2f, .2f, .2f);
     }
 
 
@@ -111,6 +114,8 @@ public class NeuralNetDrawer : MonoBehaviour
         go.transform.parent = gameObject.transform;
         go.transform.localPosition = position;
         go.name = name;
+
+        go.GetComponent<SphereCollider>().enabled = false;
 
         var text = new GameObject("Text");
         text.transform.parent = go.transform;
