@@ -12,11 +12,13 @@ namespace Assets.code.src
         
         private Individuo[] individuos;
         private int genesEnIndividuo;
+        private System.Random random;
 
         public GeneticAlgorithm(int individuos, int tamanoGenes)
         {
             this.individuos = new Individuo[individuos];
             genesEnIndividuo = tamanoGenes;
+            random = new System.Random();
             GenerarIniciales();
         }
 
@@ -44,16 +46,21 @@ namespace Assets.code.src
         public void Cruzar()
         {
             OrdenarPorFitness();
-            Individuo[] nuevos = new Individuo[individuos.Length / 2];
-            // agarrar los valores promedio
-            for (int i = 0; i<individuos.Length/2; i++)
+
+            // Cruzar los mejores x/5 con randoms
+            int newIndividuals = individuos.Length / 5;
+            Individuo[] nuevos = new Individuo[newIndividuals];
+
+            for (int i = 0; i < newIndividuals; i++)
             {
-                nuevos[i] = individuos[i].Cruzar(individuos[i + 1]);
+                int randomCouple = random.Next(newIndividuals, individuos.Length-1);
+                nuevos[i] = individuos[i].Cruzar(individuos[randomCouple]);
             }
+            
 
             // remplazar los ultimos con los nuevos
             int j = 0;
-            for (int i = (individuos.Length / 2) + 1; i < individuos.Length; i++)
+            for (int i = (individuos.Length - newIndividuals); i < individuos.Length; i++)
             {
                 individuos[i] = nuevos[j++];
             }

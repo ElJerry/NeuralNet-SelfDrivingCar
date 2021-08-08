@@ -56,17 +56,24 @@ namespace Assets.code.src
         public Individuo Cruzar(Individuo otro)
         {
             Individuo nuevo = new Individuo(genes.Length);
-
             for (int i = 0; i<genes.Length; i++)
             {
-                if(random.Next(100) <= probMut)
+                int mutChance = random.Next(0, 100);
+                if (mutChance <= probMut)
                 {
-                    // mutate
                     nuevo.genes[i] = GenerateRandomGene();
-                    continue;
+                } else
+                {
+                    int genSelector = random.Next(0, 1);
+                    if (genSelector == 0)
+                    {
+                        nuevo.genes[i] = this.genes[i];
+                    } else
+                    {
+                        nuevo.genes[i] = otro.genes[i];
+                    }
                 }
-                
-                nuevo.genes[i] = (genes[i] + otro.genes[i])/ 2;
+
             }
 
             return nuevo;

@@ -840,6 +840,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NeuralNetDrawer
       objectReference: {fileID: 0}
+    - target: {fileID: 5207303939170150620, guid: f7e143e1a8a9cdc4994564f49e75dfb5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8012410243356635536, guid: f7e143e1a8a9cdc4994564f49e75dfb5,
         type: 3}
       propertyPath: m_LocalPosition.x
