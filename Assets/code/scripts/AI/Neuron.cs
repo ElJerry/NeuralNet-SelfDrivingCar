@@ -39,14 +39,19 @@ public class Neuron
     public float Evaluate()
     {
         // gather inputs from inputList
+        float localInput = input;
         foreach (Neuron n in inputList)
         {
             var test = this.neuronId;
-            input += (n.output);
+            localInput += (n.output);
         }
+        //Printer.print(neuronId + " Local input: " + localInput);
 
-        output = ((input) * weight) + bias;
+        output = ((localInput) * weight) + bias;
         output = (float)(Math.Tanh((double)output));
+        //Printer.print(neuronId + " output: " + output);
+
+        // clean input at the end
         //Printer.print(neuronId + " output: " + output);        
         return output;
     }

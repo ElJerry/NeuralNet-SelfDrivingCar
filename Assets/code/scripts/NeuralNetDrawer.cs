@@ -66,7 +66,7 @@ public class NeuralNetDrawer : MonoBehaviour
             }
             // write output value
             TextMesh text = origin.transform.GetComponentInChildren<TextMesh>();
-            text.text = n.input.ToString();
+            text.text = n.output.ToString();
 
             // print value
 
@@ -104,7 +104,7 @@ public class NeuralNetDrawer : MonoBehaviour
         neuronsCreated = true;
 
         //downscale
-        gameObject.transform.localScale = new Vector3(.2f, .2f, .2f);
+        //gameObject.transform.localScale = new Vector3(.2f, .2f, .2f);
     }
 
 

@@ -76,8 +76,8 @@ public class CarController : MonoBehaviour
             {
                 steerInput = -steerInput;
             }
-            transform.Rotate(0, steerInput * steerSpeed, 0, Space.World);
         }
+            transform.Rotate(0, steerInput * steerSpeed, 0, Space.World);
     }
 
     public void SendInputs(float gas, float steer)

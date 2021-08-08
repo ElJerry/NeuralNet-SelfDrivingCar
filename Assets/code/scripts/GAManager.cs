@@ -44,7 +44,7 @@ public class GAManager : MonoBehaviour
         {
             nNet[i] = new NeuralNetwork(inputs, outputs, layers, layerNodes);
             nNet[i].ConfigureNetwork(ga.GetIndividuo(i).genes);
-            //neuralNetDrawer.SetNeuralNetwork(nNet[i]);
+            neuralNetDrawer.SetNeuralNetwork(nNet[i]);
             GameObject car = spawnCar();
             carController[i] = car.GetComponent<CarController>();
             //car.GetComponentInChildren<NeuralNetDrawer>().SetNeuralNetwork(nNet[i]);
