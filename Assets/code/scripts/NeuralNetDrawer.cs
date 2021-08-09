@@ -14,6 +14,7 @@ public class NeuralNetDrawer : MonoBehaviour
     List<GameObject> inputNodes;
     List<GameObject> hiddenNodes;
     List<GameObject> outputNodes;
+    List<LineRenderer> lines;
     Dictionary<string, GameObject> nodeMapping;
 
     // Start is called before the first frame update
@@ -23,6 +24,21 @@ public class NeuralNetDrawer : MonoBehaviour
         hiddenNodes = new List<GameObject>();
         outputNodes = new List<GameObject>();
         nodeMapping = new Dictionary<string, GameObject>();
+
+        int linesNeeded = (neuralNetwork.inputList.Count * neuralNetwork.nodesInHiddenLayers) 
+                        + (neuralNetwork.hiddenLayers * neuralNetwork.nodesInHiddenLayers) 
+                        + (neuralNetwork.nodesInHiddenLayers * neuralNetwork.outputList.Count);
+
+        lines = new List<LineRenderer>();
+        for (int i=0; i<linesNeeded; i++)
+        {
+            var lineObject = new GameObject("line" + i);
+            lineObject.transform.parent = gameObject.transform;
+            var line = lineObject.AddComponent<LineRenderer>();
+            line.material = new Material(Shader.Find("Sprites/Default"));
+            line.widthMultiplier = 0.05f;
+            lines.Add(line);
+        }
     }
 
     // Update is called once per frame
@@ -47,6 +63,7 @@ public class NeuralNetDrawer : MonoBehaviour
         }
 
         // link nodes
+        int lineN = 0;
         foreach (Neuron n in neuralNetwork.allNeurons)
         {
             var origin = nodeMapping[n.neuronId];
@@ -54,15 +71,19 @@ public class NeuralNetDrawer : MonoBehaviour
             {
                 var destiny = nodeMapping[nLink.neuronId];
                 Color color;
-                if (n.output > .5f)
-                    color = Color.red;
+                if (n.output > .3f)
+                    color = Color.black;
                 else
                     color = Color.white;
 
-                color = new Color(n.output, n.output, n.output);
-                    
-                Debug.DrawRay(nodeMapping[n.neuronId].transform.position, destiny.transform.localPosition - origin.transform.localPosition, color);
+                //color = new Color(n.output, n.output, n.output);
 
+                //Debug.DrawRay(nodeMapping[n.neuronId].transform.position, destiny.transform.localPosition - origin.transform.localPosition, color);
+                lines[lineN].startColor = lines[lineN].endColor = color;
+
+                lines[lineN].SetPosition(0, nodeMapping[n.neuronId].transform.position);
+                lines[lineN].SetPosition(1, destiny.transform.position);
+                lineN++;
             }
             // write output value
             TextMesh text = origin.transform.GetComponentInChildren<TextMesh>();

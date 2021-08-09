@@ -453,7 +453,7 @@ MeshCollider:
   m_GameObject: {fileID: 472011114}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ce995109a030d4c973b1b49b14b7ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  individuosPorGeneracion: 300
+  individuosPorGeneracion: 100
   carObject: {fileID: 3617623881331399636, guid: 764ad430e8b1217499bba291ea5f48f4,
     type: 3}
   neuralNetDrawer: {fileID: 1529121088}
