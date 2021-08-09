@@ -79,6 +79,34 @@ namespace Assets.code.src
             return nuevo;
         }
 
+        public List<Individuo> GenerateMutations(int nMutations)
+        {
+            List<Individuo> mutatedInds = new List<Individuo>();
+
+            for (int i =0; i<nMutations; i++)
+            {
+                Individuo iteration = copy();
+                iteration.fitness = 0;
+                int randomPosition = random.Next(0, genes.Length - 1);
+                iteration.genes[randomPosition] = GenerateRandomGene();
+                mutatedInds.Add(iteration);
+            }
+
+            return mutatedInds;
+        }
+
+        private Individuo copy()
+        {
+            Individuo copy = new Individuo(genes.Length);
+
+            for (int i = 0; i < genes.Length; i++)
+            {
+                copy.genes[i] = genes[i];
+            }
+
+            return copy;
+        }
+
         public int CompareTo(Object obj)
         {
             Individuo otro = (Individuo)obj;

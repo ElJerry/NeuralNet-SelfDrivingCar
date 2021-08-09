@@ -43,23 +43,49 @@ namespace Assets.code.src
             return sb.ToString();
         }
 
+        public void CruzarMutacion()
+        {
+            OrdenarPorFitness();
+
+            // Mutar los mejores x/10            
+            int toMutate = individuos.Length / 10;
+            int childs = individuos.Length / toMutate;
+            List<Individuo> nuevos = new List<Individuo>();
+
+            for  (int i = 0; i<toMutate; i++)
+            {
+                nuevos.Add(individuos[i]);
+                nuevos.AddRange(individuos[i].GenerateMutations(childs - 1));
+            }
+
+
+
+            // remplazar
+            for (int i=0; i<nuevos.Count; i++)
+            {
+                individuos[i] = nuevos[i];
+            }
+
+            OrdenarPorFitness();
+        }
+
         public void Cruzar()
         {
             OrdenarPorFitness();
 
             // Cruzar los mejores x/5 con randoms
-            int newIndividuals = individuos.Length / 5;
+            int newIndividuals = individuos.Length / 2;
             Individuo[] nuevos = new Individuo[newIndividuals];
 
-            for (int i = 0; i < newIndividuals; i++)
+            int j = 0;
+            for (int i = 0; i < individuos.Length; i += 2)
             {
-                int randomCouple = random.Next(newIndividuals, individuos.Length-1);
-                nuevos[i] = individuos[i].Cruzar(individuos[randomCouple]);
+                nuevos[j++] = individuos[i].Cruzar(individuos[i + 1]);
             }
-            
+
 
             // remplazar los ultimos con los nuevos
-            int j = 0;
+            j = 0;
             for (int i = (individuos.Length - newIndividuals); i < individuos.Length; i++)
             {
                 individuos[i] = nuevos[j++];
